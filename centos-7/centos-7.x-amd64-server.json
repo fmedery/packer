@@ -1,0 +1,42 @@
+{
+
+  "variables":
+  {
+    "aws_access_key": "",
+	    "aws_secret_key": "",
+      "aws_region": "us-west-2",
+      "ami_id": "ami-23ea5843",
+      "ami_name": "ssense/images/hvm-ebs/centos-7.x-amd64-server",
+      "instance_type": "t2.medium"
+  },
+
+  "builders": [
+	{
+    "type": "amazon-ebs",
+    "access_key": "{{ user `aws_access_key` }}",
+    "secret_key": "{{ user `aws_secret_key` }}",
+
+    "region": "{{ user `aws_region` }}",
+    "source_ami": "{{ user `ami_id` }}",
+    "instance_type": "{{ user `instance_type` }}",
+
+    "ssh_username": "centos",
+   "ssh_port": 22,
+  "ami_name": "{{ user `ami_name` }}-{{ isotime \"20060102\" }}"
+	}
+    ],
+
+  "provisioners": [
+  	{
+      "type": "shell",
+  	  "inline": [
+        "sudo yum -y clean all",
+        "sudo yum -y -q install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm",
+        "sudo yum -y -q update",
+        "sudo yum -y -q groupinstall core base",
+        "sudo sed -i -e 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config"
+      ]
+    }
+  ]
+
+}
