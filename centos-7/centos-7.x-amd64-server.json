@@ -5,9 +5,10 @@
     "aws_access_key": "",
 	    "aws_secret_key": "",
       "aws_region": "us-west-2",
-      "ami_id": "ami-23ea5843",
+      "ami_id": "ami-aca7d6cc",
       "ami_name": "ssense/images/hvm-ebs/centos-7.x-amd64-server",
-      "instance_type": "t2.medium"
+      "instance_type": "t2.medium",
+      "ssh_user": "centos"
   },
 
   "builders": [
@@ -19,10 +20,13 @@
     "region": "{{ user `aws_region` }}",
     "source_ami": "{{ user `ami_id` }}",
     "instance_type": "{{ user `instance_type` }}",
+    "ami_description": "",
+    "ami_groups": "all",
+    "force_deregister": "true",
+    "ssh_username": "{{ user `ssh_user`}}",
+    "ssh_port": 22,
+    "ami_name": "{{ user `ami_name` }}-{{ isotime \"20060102\" }}"
 
-    "ssh_username": "centos",
-   "ssh_port": 22,
-  "ami_name": "{{ user `ami_name` }}-{{ isotime \"20060102\" }}"
 	}
     ],
 
@@ -30,11 +34,11 @@
   	{
       "type": "shell",
   	  "inline": [
+        "sudo /sbin/setenforce permissive",
+        "sudo sed -i.packer_{{ isotime \"20060102\" }} -e 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config",
         "sudo yum -y clean all",
-        "sudo yum -y -q install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm",
-        "sudo yum -y -q update",
-        "sudo yum -y -q groupinstall core base",
-        "sudo sed -i -e 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config"
+        "sudo yum -y install deltarpm",
+        "sudo yum -y update"
       ]
     }
   ]
