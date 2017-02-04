@@ -5,10 +5,10 @@
     "aws_access_key": "",
 	    "aws_secret_key": "",
       "aws_region": "us-west-2",
-      "ami_id": "ami-aca7d6cc",
+      "ami_id": "ami-6fca700f",
       "ami_name": "ssense/images/hvm-ebs/centos-7.x-amd64-server",
-      "instance_type": "t2.medium",
-      "ssh_user": "centos"
+      "instance_type": "t2.large",
+      "ssh_user": "ec2-user"
   },
 
   "builders": [
@@ -34,11 +34,10 @@
   	{
       "type": "shell",
   	  "inline": [
-        "sudo /sbin/setenforce permissive",
-        "sudo sed -i.packer_{{ isotime \"20060102\" }} -e 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config",
-        "sudo yum -y clean all",
-        "sudo yum -y install deltarpm",
-        "sudo yum -y update"
+        "sudo yum  -y clean all",
+        "sudo yum  -y install deltarpm",
+        "sudo yum  -y remove firewalld",
+        "sudo yum  -y update"
       ]
     }
   ]
