@@ -34,10 +34,10 @@
   	{
       "type": "shell",
   	  "inline": [
-        "sudo yum  -y clean all",
-        "sudo yum  -y install deltarpm",
-        "sudo yum  -y remove firewalld",
-        "sudo yum  -y update"
+        "sudo yum -y clean all",
+        "sudo yum -y install deltarpm",
+        "sudo yum -y remove firewalld",
+        "sudo yum -y update"
       ]
     }
   ]
