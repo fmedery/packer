@@ -5,7 +5,7 @@
     "aws_access_key": "",
 	    "aws_secret_key": "",
       "aws_region": "us-west-2",
-      "ami_id": "ami-6fca700f",
+      "ami_id": "ami-20d56f40",
       "ami_name": "ssense/images/hvm-ebs/centos-7.x-amd64-server",
       "instance_type": "t2.large",
       "ssh_user": "ec2-user"
